@@ -21,8 +21,8 @@ public class DialogCustom extends AppCompatDialogFragment {
     private DialogListener listener;
     private int dialogStatus;
     private String dialogText;
-    private Boolean dialogCheckBox;
-    public DialogCustom(int status, String text, Boolean checkBox){
+    private int dialogCheckBox;
+    public DialogCustom(int status, String text, int checkBox){
         dialogStatus = status;
         dialogText = text;
         dialogCheckBox = checkBox;
@@ -38,13 +38,12 @@ public class DialogCustom extends AppCompatDialogFragment {
         reminderText = view.findViewById(R.id.reminder_text);
         impor = view.findViewById(R.id.important);
         if(dialogStatus == 1) {
-            view.setBackgroundResource(R.color.Red);
+            view.setBackgroundResource(R.color.Orange);
             builder.setView(view)
                     .setTitle("New Reminder")
                     .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
                     })
                     .setPositiveButton("COMMIT", new DialogInterface.OnClickListener() {
@@ -52,6 +51,7 @@ public class DialogCustom extends AppCompatDialogFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             String reminderDescription = reminderText.getText().toString();
                             Boolean important = impor.isChecked();
+                            listener.passNewReminder(reminderDescription, important);
                             Log.w("My", reminderDescription);
                         }
                     });
@@ -59,7 +59,7 @@ public class DialogCustom extends AppCompatDialogFragment {
         else
         {
             reminderText.setText(dialogText);
-            if(dialogCheckBox)
+            if(dialogCheckBox == 1)
                 impor.setChecked(true);
 
             view.setBackgroundResource(R.color.Blue);
@@ -75,6 +75,7 @@ public class DialogCustom extends AppCompatDialogFragment {
 
                             String reminderDescription = reminderText.getText().toString();
                             Boolean important = impor.isChecked();
+                            listener.editReminder(reminderDescription, important);
                             Log.w("My", reminderDescription);
                         }
                     });
@@ -96,6 +97,9 @@ public class DialogCustom extends AppCompatDialogFragment {
     }
 
     public interface DialogListener{
-        void communicateWithMain(String reminderDescription, Boolean important, Boolean deleteFlag, int idToBeDeleted);
+        void passNewReminder(String reminderDescription, Boolean important);
+        void editReminder(String reminderDescription, Boolean important);
     }
+
+
 }

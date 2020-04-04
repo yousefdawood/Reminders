@@ -1,6 +1,5 @@
 package com.example.reminders;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -8,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.nio.channels.NonReadableChannelException;
 
 
 public class RemindersDbAdapter {
@@ -58,16 +56,16 @@ public class RemindersDbAdapter {
     public void createReminder(String name, boolean important) {
         int imp = (important) ? 1:0;
         String query =  "Insert Into "+TABLE_NAME+" ("+COL_CONTENT+","+COL_IMPORTANT+")\n" +
-                "Value ('"+name+"', "+imp+" );";
+                "Values ('"+name+"', "+imp+" );";
         mDb.execSQL(query);
-
     }
     //TODO overloaded to take a reminder
     public long createReminder(Reminder reminder) {
 
-        String query ="Insert Into "+TABLE_NAME+" ("+COL_ID+","+COL_CONTENT+","+COL_IMPORTANT+")\n"+
+        String query ="Insert Into "+TABLE_NAME+" ("+","+COL_CONTENT+","+COL_IMPORTANT+")\n"+
                 "Values ("+reminder.getId()+",'"+reminder.getContent()+"', "+reminder.getImportant()+" );";
         mDb.execSQL(query);
+        //This is a dummy value
         long value = new Long(4);
         return value;
     }
@@ -94,8 +92,8 @@ public class RemindersDbAdapter {
     //TODO implement the function updateReminder() to update a certain reminder
     public void updateReminder(Reminder reminder) {
         String query =  "UPDATE "+TABLE_NAME +
-                "SET "+COL_CONTENT+" = "+reminder.getContent()+", "+COL_IMPORTANT+" = "+reminder.getImportant() +
-                "WHERE "+COL_ID+" = "+reminder.getId()+";";
+                " SET "+COL_CONTENT+ " = '" +reminder.getContent()+ "', " +COL_IMPORTANT+ " = " +reminder.getImportant() +
+                " WHERE "+COL_ID+" = "+reminder.getId()+";";
         mDb.execSQL(query);
     }
     //TODO implement the function deleteReminderById() to delete a certain reminder given its id

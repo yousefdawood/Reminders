@@ -2,15 +2,16 @@ package com.example.reminders;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorAdapter;
+import android.widget.ImageView;
 
 import androidx.core.content.ContextCompat;
 
-//import android.support.v4.content.ContextCompat;
-//import android.support.v4.widget.SimpleCursorAdapter;
-
+/**
+ * Created by engMa_000 on 2017-04-03.
+ */
 
 public class RemindersSimpleCursorAdapter extends SimpleCursorAdapter {
 
@@ -30,20 +31,20 @@ public class RemindersSimpleCursorAdapter extends SimpleCursorAdapter {
         if (holder == null) {
             holder = new ViewHolder();
             holder.colImp = cursor.getColumnIndexOrThrow(RemindersDbAdapter.COL_IMPORTANT);
-            holder.listTab = view.findViewById(R.id.row_tab);
+            holder.listTab = view.findViewById(R.id.image);
             view.setTag(holder);
         }
         if (cursor.getInt(holder.colImp) > 0) {
-            holder.listTab.setBackgroundColor(ContextCompat.getColor(context,R.color.orange));
+            holder.listTab.setBackgroundColor(ContextCompat.getColor(context,R.color.Orange));
         } else {
-            holder.listTab.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
+            holder.listTab.setBackgroundColor(ContextCompat.getColor(context,R.color.Green));
         }
     }
     static class ViewHolder {
         //store the column index
         int colImp;
         //store the view
-        View listTab;
+        ImageView listTab;
     }
 
 }
